@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "busca-por-palavra.schema.json",
+  "type": "object",
+  "required": ["versao_schema", "padroes_livres", "buscas"],
+  "additionalProperties": false,
+  "properties": {
+    "versao_schema": { "const": 1 },
+    "padroes_livres": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "buscas": { "type": "array", "items": { "$ref": "#/$defs/busca" } }
+  },
+  "$defs": {
+    "busca": {
+      "type": "object",
+      "required": ["comando", "opcoes_do_padrao", "opcoes_de_arquivo", "opcoes_com_valor", "opcoes_sem_valor"],
+      "additionalProperties": false,
+      "properties": {
+        "comando": { "$ref": "comum.schema.json#/$defs/linha" },
+        "opcoes_do_padrao": { "$ref": "#/$defs/opcoes" },
+        "opcoes_de_arquivo": { "$ref": "#/$defs/opcoes" },
+        "opcoes_com_valor": { "$ref": "#/$defs/opcoes" },
+        "opcoes_sem_valor": { "$ref": "#/$defs/opcoes" }
+      }
+    },
+    "opcoes": { "type": "array", "items": { "$ref": "#/$defs/opcao" } },
+    "opcao": { "type": "string", "pattern": "^--?[^\\s=-][^\\s=]*(?![\\s\\S])" }
+  }
+}
