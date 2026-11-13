@@ -7,6 +7,12 @@ prateleira segue o [Versionamento Semântico](https://semver.org/lang/pt-BR/spec
 
 ## [Não publicado]
 
+## [0.3.0] - 2026-11-13
+
+### Adicionado
+
+- O código da peça regras-de-codigo, de ganchos, com o molde da configuração dela.
+
 ## [0.2.0] - 2026-11-12
 
 ### Modificado
@@ -25,6 +31,7 @@ prateleira segue o [Versionamento Semântico](https://semver.org/lang/pt-BR/spec
   busca-por-palavra, leitura-completa, destino-da-limpeza e chamadas-permitidas.
 - A peça busca-por-palavra, de ganchos.
 
-[não publicado]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.2.0...HEAD
+[não publicado]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/engsofjvolfe/prateleira-agnostica/releases/tag/v0.1.0

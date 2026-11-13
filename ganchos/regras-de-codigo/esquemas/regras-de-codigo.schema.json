@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "regras-de-codigo.schema.json",
+  "type": "object",
+  "required": ["estado", "regras", "conferencias", "ok_de_pessoa"],
+  "additionalProperties": false,
+  "properties": {
+    "estado": { "$ref": "#/$defs/linha" },
+    "regras": { "type": "array", "items": { "$ref": "#/$defs/regra" } },
+    "conferencias": { "type": "array", "items": { "$ref": "#/$defs/conferencia" } },
+    "ok_de_pessoa": {
+      "type": "object",
+      "required": ["arquivos", "mensagem"],
+      "additionalProperties": false,
+      "properties": {
+        "arquivos": { "$ref": "#/$defs/padroes" },
+        "mensagem": { "$ref": "#/$defs/linha" }
+      }
+    }
+  },
+  "$defs": {
+    "linha": { "$ref": "comum.schema.json#/$defs/linha" },
+    "padroes": { "type": "array", "items": { "$ref": "#/$defs/linha" } },
+    "regra": {
+      "type": "object",
+      "required": ["texto", "arquivos"],
+      "additionalProperties": false,
+      "properties": {
+        "texto": { "$ref": "#/$defs/linha" },
+        "arquivos": { "$ref": "#/$defs/padroes" }
+      }
+    },
+    "conferencia": {
+      "type": "object",
+      "required": ["nome", "comando", "arquivos"],
+      "additionalProperties": false,
+      "properties": {
+        "nome": { "$ref": "#/$defs/linha" },
+        "comando": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/linha" } },
+        "arquivos": { "$ref": "#/$defs/padroes" }
+      }
+    }
+  }
+}
