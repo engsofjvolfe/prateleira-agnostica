@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "anotacao.schema.json",
+  "type": "object",
+  "propertyNames": { "$ref": "comum.schema.json#/$defs/linha" },
+  "additionalProperties": {
+    "type": "object",
+    "required": ["primeira", "lida", "impressao"],
+    "additionalProperties": false,
+    "properties": {
+      "primeira": { "type": "integer" },
+      "lida": { "type": "integer" },
+      "impressao": { "$ref": "comum.schema.json#/$defs/linha" }
+    }
+  }
+}

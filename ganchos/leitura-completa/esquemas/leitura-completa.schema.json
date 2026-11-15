@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "leitura-completa.schema.json",
+  "type": "object",
+  "required": ["versao_schema", "estado"],
+  "additionalProperties": false,
+  "properties": {
+    "versao_schema": { "const": 1 },
+    "estado": { "$ref": "comum.schema.json#/$defs/linha" }
+  }
+}

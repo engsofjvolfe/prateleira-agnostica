@@ -20,8 +20,10 @@ barrado.
 - **Antes de uma escrita:** só passa quando nenhum arquivo está lido só em parte.
 - **No fim da resposta:** não deixa terminar enquanto houver arquivo lido só em parte.
 
-Se um arquivo cresce depois de lido, ele volta a ficar lido só em parte, e a leitura
-continua na linha nova.
+De cada arquivo, o vigia guarda uma impressão digital do trecho já lido: uma conta feita
+sobre o texto desse trecho, que dá outro resultado quando o texto muda. Se o trecho já lido
+muda, o que estava anotado deixa de valer, e o arquivo volta a ter de ser lido do começo. Se
+o arquivo só cresce depois do trecho lido, a leitura continua na linha nova.
 
 Quando barra ou trava, o vigia mostra o texto do projeto e, depois dele, cada arquivo e até
 onde ele foi lido.
@@ -50,19 +52,23 @@ Cada um desses textos termina na linha que apresenta as partes que vêm depois d
 
 - A leitura só passa quando traz só os campos que a folha conhece para ela: o caminho, o
   começo, quantas linhas e os campos livres.
-- A leitura de um arquivo que não existe passa, porque não há o que ler.
+- A leitura de um arquivo que não existe, ou que não se lê como texto, passa, porque não há o
+  que ler.
 - Do que a leitura devolveu, vale o trecho seguido de linhas numeradas que começa na
   primeira linha do arquivo ou na seguinte à última lida; o resto não conta. A linha vazia
   que o programa pode mostrar depois da última quebra de linha não conta.
-- A última linha de um arquivo se conta no próprio arquivo, a cada conferência.
+- A última linha de um arquivo se conta no próprio arquivo, a cada conferência. A quebra de
+  linha, que é o sinal invisível que separa uma linha da outra, conta nas três formas em que
+  ela pode estar escrita num arquivo, as mesmas que o leitor de texto da prateleira entende.
 - O arquivo vale pelo caminho absoluto e sem atalhos: o mesmo arquivo, escrito de outro
   jeito, é o mesmo.
 
 ### O que ele mostra quando barra ou trava
 
 Depois do texto do projeto, uma por linha e em ordem, as partes que causaram o bloqueio: o
-arquivo e até onde ele foi lido, como `<arquivo>: <lida>/<última>`, ou o arquivo e o campo
-que a folha não conhece, como `<arquivo>: <campo>`.
+arquivo e até onde ele foi lido, como `<arquivo>: <lida>/<última>`; o arquivo e o campo que a
+folha não conhece, como `<arquivo>: <campo>`; ou a ferramenta que lê de outro jeito, pelo
+nome que ela tem na folha.
 
 ### A configuração
 
@@ -70,7 +76,7 @@ O molde está em `esquemas/leitura-completa.schema.json`.
 
 | Chave | O que é |
 | --- | --- |
-| `estado` | a pasta das anotações, numa linha só; a anotação guarda, de cada arquivo lido, o número da primeira linha e o da última lida |
+| `estado` | a pasta das anotações, numa linha só; a anotação guarda, de cada arquivo lido, o número da primeira linha, o da última lida e a impressão digital do trecho lido |
 
 A anotação se grava inteira de uma vez e se lê pelo molde `esquemas/anotacao.schema.json`,
 com o caminho de cada arquivo numa linha só. Só o vigia a muda. Dois grupos de usos ao mesmo
@@ -79,8 +85,10 @@ tempo esperam um pelo outro para gravá-la.
 ### O que ele usa da folha do protocolo
 
 Os três momentos (`antes`, `lote` e `fim`); os modelos `nega` e `trava`; as ferramentas de
-leitura, com os campos, a primeira linha, a forma da linha numerada e os campos livres; e as
-ferramentas de escrita, as que trocam um trecho e as que gravam o arquivo inteiro.
+leitura, com os campos, a primeira linha, a forma da linha numerada e os campos livres; as
+ferramentas de escrita, as que trocam um trecho e as que gravam o arquivo inteiro; e os
+outros jeitos de ler um arquivo, que são a ferramenta de terminal, as de busca e as que leem
+por outro modelo de IA e entregam um resumo.
 
 ### O que dá erro
 
