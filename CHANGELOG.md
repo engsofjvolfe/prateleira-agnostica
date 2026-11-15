@@ -7,6 +7,15 @@ prateleira segue o [Versionamento Semântico](https://semver.org/lang/pt-BR/spec
 
 ## [Não publicado]
 
+## [0.5.0] - 2026-11-15
+
+### Modificado
+
+- O README da peça destino-da-limpeza, de ganchos: o vigia escreve no registro o texto que
+  sai da memória, e a IA não escreve nele; guarda a impressão digital do registro e barra
+  tudo quando ela não bate; e confere, com a peça protecao-de-arquivos da central, que a IA
+  não consegue mudar o registro nem a pasta das anotações.
+
 ## [0.4.0] - 2026-11-15
 
 ### Adicionado
@@ -47,7 +56,8 @@ prateleira segue o [Versionamento Semântico](https://semver.org/lang/pt-BR/spec
   busca-por-palavra, leitura-completa, destino-da-limpeza e chamadas-permitidas.
 - A peça busca-por-palavra, de ganchos.
 
-[não publicado]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.4.0...HEAD
+[não publicado]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.1.0...v0.2.0
