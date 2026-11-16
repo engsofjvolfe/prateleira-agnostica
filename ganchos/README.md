@@ -1,6 +1,7 @@
 # ganchos
 
-Vigias que o programa onde a IA trabalha consulta antes de deixar a IA agir.
+Vigias que o programa onde a IA trabalha consulta antes de deixar a IA agir, e o ajuste que
+impede a IA de alterar os arquivos deles.
 
 Para fazer as coisas, a IA usa ferramentas: ler um arquivo, escrever um arquivo, rodar um
 comando no terminal, procurar uma palavra. Em certos momentos (antes de a IA usar uma
@@ -15,6 +16,7 @@ ou "antes, leia isto". Esses vigias são os ganchos.
 - [leitura-completa](leitura-completa/README.md): o vigia da leitura.
 - [destino-da-limpeza](destino-da-limpeza/README.md): o vigia do registro da limpeza.
 - [chamadas-permitidas](chamadas-permitidas/README.md): a cancela e o registro.
+- [ajuste-de-protecao](ajuste-de-protecao/README.md): o ajuste que protege os vigias.
 
 ## O que vale para todas
 

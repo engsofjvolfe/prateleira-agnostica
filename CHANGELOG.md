@@ -7,6 +7,18 @@ prateleira segue o [Versionamento Semântico](https://semver.org/lang/pt-BR/spec
 
 ## [Não publicado]
 
+## [0.8.0] - 2026-11-16
+
+### Adicionado
+
+- O README da peça ajuste-de-protecao, de ganchos, com a pesquisa: ela faz no computador o
+  ajuste que impede a IA de alterar os arquivos das peças que ficam de olho nela, com um
+  usuário só para a IA, e confere o ajuste no fim com a peça conferencia-de-protecao.
+
+### Modificado
+
+- O README de ganchos, com a peça nova.
+
 ## [0.6.0] - 2026-11-16
 
 ### Modificado
@@ -63,7 +75,8 @@ prateleira segue o [Versionamento Semântico](https://semver.org/lang/pt-BR/spec
   busca-por-palavra, leitura-completa, destino-da-limpeza e chamadas-permitidas.
 - A peça busca-por-palavra, de ganchos.
 
-[não publicado]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.6.0...HEAD
+[não publicado]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.6.0...v0.8.0
 [0.6.0]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.3.0...v0.4.0
