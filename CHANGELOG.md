@@ -7,6 +7,13 @@ prateleira segue o [Versionamento Semântico](https://semver.org/lang/pt-BR/spec
 
 ## [Não publicado]
 
+## [0.6.0] - 2026-11-16
+
+### Modificado
+
+- O README da peça destino-da-limpeza, de ganchos, com o nome da peça da central que confere
+  a proteção.
+
 ## [0.5.0] - 2026-11-15
 
 ### Modificado
@@ -56,7 +63,8 @@ prateleira segue o [Versionamento Semântico](https://semver.org/lang/pt-BR/spec
   busca-por-palavra, leitura-completa, destino-da-limpeza e chamadas-permitidas.
 - A peça busca-por-palavra, de ganchos.
 
-[não publicado]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.5.0...HEAD
+[não publicado]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.2.0...v0.3.0

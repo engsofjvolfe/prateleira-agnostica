@@ -77,8 +77,8 @@ e o lacre e começa de novo com o que encontrar.
 Por isso o destino e a pasta das anotações têm de ficar protegidos pelo próprio computador,
 de um jeito que só o vigia consiga mudá-los, e a IA não, por nenhum caminho. O vigia não
 monta essa proteção: o projeto a monta, ao ligá-lo. Mas ele a confere a cada consulta, com a
-peça [protecao-de-arquivos](../../central/protecao-de-arquivos/README.md) da central, e barra
-tudo enquanto ela não estiver montada.
+peça [conferencia-de-protecao](../../central/conferencia-de-protecao/README.md) da central, e
+barra tudo enquanto ela não estiver montada.
 
 ## Como ligar num projeto
 
