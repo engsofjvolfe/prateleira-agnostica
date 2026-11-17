@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ajuste-de-protecao.schema.json",
+  "type": "object",
+  "required": [
+    "versao_schema",
+    "usuario_da_ia",
+    "usuario_da_pessoa",
+    "dono_dos_itens",
+    "pastas_de_trabalho",
+    "comando_da_ia",
+    "pedido_de_outro_usuario",
+    "textos"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "versao_schema": { "const": 1 },
+    "usuario_da_ia": { "$ref": "comum.schema.json#/$defs/linha" },
+    "usuario_da_pessoa": { "$ref": "comum.schema.json#/$defs/linha" },
+    "dono_dos_itens": { "$ref": "comum.schema.json#/$defs/linha" },
+    "pastas_de_trabalho": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "comum.schema.json#/$defs/linha" }
+    },
+    "comando_da_ia": { "$ref": "#/$defs/palavras" },
+    "pedido_de_outro_usuario": { "$ref": "#/$defs/palavras" },
+    "textos": {
+      "type": "object",
+      "required": [
+        "sistema_nao_atendido",
+        "falta_ferramenta",
+        "sem_administrador",
+        "ia_com_nome_repetido",
+        "ia_vira_administrador",
+        "item_em_pasta_de_trabalho",
+        "pasta_acima_aberta",
+        "atalho_para_fora",
+        "item_de_outro_dono_aberto",
+        "onde_vai_aparecer_com_outros",
+        "pasta_de_trabalho_em_item",
+        "pasta_de_trabalho_com_outro_dono",
+        "fez",
+        "faria",
+        "encontrou"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "sistema_nao_atendido": { "$ref": "comum.schema.json#/$defs/texto" },
+        "falta_ferramenta": { "$ref": "comum.schema.json#/$defs/texto" },
+        "sem_administrador": { "$ref": "comum.schema.json#/$defs/texto" },
+        "ia_com_nome_repetido": { "$ref": "comum.schema.json#/$defs/texto" },
+        "ia_vira_administrador": { "$ref": "comum.schema.json#/$defs/texto" },
+        "item_em_pasta_de_trabalho": { "$ref": "comum.schema.json#/$defs/texto" },
+        "pasta_acima_aberta": { "$ref": "comum.schema.json#/$defs/texto" },
+        "atalho_para_fora": { "$ref": "comum.schema.json#/$defs/texto" },
+        "item_de_outro_dono_aberto": { "$ref": "comum.schema.json#/$defs/texto" },
+        "onde_vai_aparecer_com_outros": { "$ref": "comum.schema.json#/$defs/texto" },
+        "pasta_de_trabalho_em_item": { "$ref": "comum.schema.json#/$defs/texto" },
+        "pasta_de_trabalho_com_outro_dono": { "$ref": "comum.schema.json#/$defs/texto" },
+        "fez": { "$ref": "comum.schema.json#/$defs/texto" },
+        "faria": { "$ref": "comum.schema.json#/$defs/texto" },
+        "encontrou": { "$ref": "comum.schema.json#/$defs/texto" }
+      }
+    }
+  },
+  "$defs": {
+    "palavras": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "comum.schema.json#/$defs/linha" }
+    }
+  }
+}

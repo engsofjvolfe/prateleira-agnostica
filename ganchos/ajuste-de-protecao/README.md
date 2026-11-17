@@ -33,6 +33,12 @@ anotações de uma peça que fica de olho nela, o computador recusa.
 A pessoa roda esta peça como administrador. O administrador é o usuário que pode tudo no
 computador. Só ele cria usuários e muda os direitos dos arquivos de outros usuários.
 
+Antes de rodar a peça, a pessoa fecha o programa da IA. Antes do ajuste, a IA roda com o usuário
+da pessoa e altera as pastas dela. Enquanto a peça troca donos e direitos, a IA poderia trocar uma
+pasta por um atalho, que é um arquivo que leva a outro lugar. A peça, que pode tudo, mudaria então
+o lugar para onde o atalho leva, que pode ser um arquivo do próprio sistema. Com a IA fechada,
+nada troca as pastas enquanto a peça trabalha.
+
 A peça recebe do projeto duas coisas: a configuração dela e a lista. A lista traz os arquivos e
 as pastas que a IA não pode alterar. Cada arquivo ou pasta da lista é um item. Por exemplo, o
 arquivo em que uma peça anota o que a IA fez é um item. É a mesma lista que a
@@ -83,7 +89,9 @@ a peça cria esse usuário também. Um usuário que já existe a peça não cria
 ### Passo 2: fechar os itens
 
 **O que é.** Fechar um item é fazer o dono dos itens virar o dono dele e deixar só o dono
-alterá-lo. Os outros usuários, inclusive o usuário da IA, continuam conseguindo lê-lo.
+alterá-lo. Quem lia o item continua lendo. O usuário da IA também lê: se antes ele não lia, a peça
+lhe dá o direito de ler, e só esse. É que as peças que ficam de olho na IA rodam com o usuário da
+IA e leem os próprios arquivos.
 
 **Por quê.** É este passo que impede a IA de mexer nos arquivos das peças que ficam de olho
 nela. O dono tem de ser outro usuário, e não o da IA, porque o dono sempre consegue voltar a
@@ -105,6 +113,11 @@ atalho abre, na verdade, o outro arquivo.
 | um arquivo que ainda não existe | a pasta em que ele vai aparecer, sem o que já está dentro dela; essa pasta passa a contar como o item | com a pasta aberta, a IA criaria ali um arquivo com o nome que a peça que fica de olho nela vai usar, e essa peça o leria como seu |
 | um atalho | o atalho e o arquivo para onde ele leva, que também conta como item | fechar só o atalho deixaria aberto o arquivo para onde ele leva |
 
+Às vezes, a pasta em que o arquivo que ainda não existe vai aparecer também não existe. Nesse
+caso, a peça cria essa pasta já fechada, junto com as pastas que faltam no caminho até ela.
+Assim, o passo tem a pasta para fechar, e a parte que anota encontra a pasta pronta para criar o
+arquivo nela.
+
 Para um atalho que está dentro de uma pasta da lista, a peça não vai atrás do arquivo para onde
 ele leva (ver "O que a peça confere antes do ajuste").
 
@@ -116,7 +129,8 @@ ele leva (ver "O que a peça confere antes do ajuste").
 fechado e de ser testado pela conferência, sem que ninguém percebesse.
 
 **Na prática.** A peça faz o administrador virar o dono da lista e deixa só ele alterá-la. Para
-mudar a lista, a pessoa usa o administrador.
+mudar a lista, a pessoa usa o administrador. O usuário da IA continua lendo a lista, porque as
+peças que ficam de olho na IA a passam à conferencia-de-protecao.
 
 ### Passo 4: proteger esta peça
 
@@ -129,7 +143,8 @@ arquivos, na próxima vez que a pessoa rodasse a peça, o que esse alguém escre
 podendo tudo.
 
 **Na prática.** A peça faz o administrador virar o dono da configuração dela, da pasta dela e da
-pasta da central, e deixa só ele alterá-las.
+pasta da central, e deixa só ele alterá-las. O usuário da IA continua lendo a central, porque as
+peças que ficam de olho na IA usam o código dela.
 
 ### Passo 5: abrir o caminho até os arquivos
 
@@ -138,11 +153,16 @@ um usuário precisa ter o direito de entrar em cada pasta do caminho até ele. E
 não é alterá-la: quem só entra não cria, não apaga e não troca nada nela.
 
 **Por quê.** As peças que ficam de olho na IA rodam com o usuário da IA e precisam ler os
-próprios arquivos. A IA precisa chegar às pastas de trabalho. Com o caminho fechado, elas não
-chegam, e nada funciona.
+próprios arquivos, a lista e a central. A IA precisa chegar às pastas de trabalho. Com o caminho
+fechado, elas não chegam, e nada funciona.
 
 **Na prática.** A peça dá ao usuário da IA o direito de entrar nas pastas desses caminhos, e só
-esse direito.
+esse direito. Quando um caminho passa por um atalho, a peça abre também as pastas do lugar a que o
+atalho leva, porque é por elas que o computador passa.
+
+Quando uma pasta de trabalho fica dentro da pasta própria da pessoa, o usuário da IA passa a entrar
+nessa pasta. Lá dentro, ele lê tudo o que o computador deixa qualquer usuário ler. Por isso, é
+melhor a pasta de trabalho ficar fora da pasta própria da pessoa.
 
 ### Passo 6: abrir as pastas de trabalho
 
@@ -154,6 +174,13 @@ usuário da IA é novo e, sem este passo, não altera nenhum arquivo da pessoa.
 **Na prática.** A peça abre as pastas de trabalho para o usuário da IA, com tudo o que está
 nelas e o que surgir nelas depois. A pessoa continua alterando tudo o que está nelas, também o
 que a IA criar.
+
+Há um limite. Um programa pode criar um arquivo já fechado, só para o dono dele. O direito da
+pessoa não passa do que esse arquivo deixa. Se um programa da IA criar um arquivo assim, a pessoa
+só mexe nele usando o administrador.
+
+A peça faz este passo com o usuário da pessoa, e não como administrador. Assim, ela só mexe no que
+já é da pessoa, mesmo que algo mude nas pastas enquanto ela trabalha.
 
 ### Passo 7: deixar pronto o jeito de abrir a IA
 
@@ -170,7 +197,9 @@ abre a IA por esse comando.
 ### Passo 8: conferir o ajuste
 
 **O que é.** A conferencia-de-protecao testa se o computador está mesmo recusando. Com o usuário
-da IA, ela tenta alterar cada item, por tentativas que não mudam nada.
+da IA, ela tenta alterar cada item, por tentativas que não mudam nada. Ela testa também a lista, a
+configuração desta peça, a pasta desta peça e a pasta da central: a lista diz o que fica fechado,
+e o resto roda como administrador na próxima vez que a pessoa rodar esta peça.
 
 **Por quê.** Um ajuste pode parecer feito e não estar valendo. Só a tentativa mostra se o
 computador recusa.
@@ -207,6 +236,12 @@ a peça de novo.
 Nesta conferência, a lista, a configuração desta peça, a pasta desta peça e a pasta da central
 também contam como itens.
 
+Quando o usuário da IA ainda não existe, a peça confere o que um usuário novo conseguiria fazer,
+que é o que o computador deixa qualquer usuário fazer.
+
+As pastas acima de um item contam pelo caminho escrito e, quando esse caminho passa por um atalho,
+também pelo lugar a que o atalho leva, porque é por ali que o computador passa.
+
 | Para o passo | A peça confere que | Se não estivesse certo |
 | --- | --- | --- |
 | todos | ela está rodando como administrador | o computador recusaria a primeira mudança |
@@ -216,7 +251,9 @@ também contam como itens.
 | 2 | nenhuma pasta acima de um item está aberta para o usuário da IA | o mesmo risco, numa pasta que não é de trabalho, como uma que todos os usuários alteram |
 | 2 | cada atalho de dentro das pastas da lista leva a um arquivo que também está na lista | o arquivo do outro lado ficaria aberto; a peça não vai atrás dele sozinha, porque ele pode ser um arquivo do sistema |
 | 2 | cada item de outro dono, como um arquivo do sistema, já está fechado para o usuário da IA | ele ficaria aberto; a peça não troca o dono de um arquivo que não é da pessoa nem do usuário da IA |
+| 2 | a pasta em que um item que ainda não existe vai aparecer guarda só itens e as pastas que levam a eles | fechar essa pasta tiraria da pessoa o direito de criar coisas nela, e o que não é item ficaria lá dentro sem ser fechado |
 | 6 | nenhuma pasta de trabalho está dentro de um item | fechar o item fecharia junto a pasta de trabalho, e a IA não conseguiria trabalhar |
+| 6 | tudo o que está nas pastas de trabalho é da pessoa ou do usuário da IA | o passo 6 daria à IA o direito de alterar um arquivo de outro dono, como um arquivo do sistema |
 
 **Por que a pasta de cima importa.** Quem consegue alterar uma pasta consegue trocar o nome do que
 está dentro dela e pôr outra coisa no lugar, com o nome antigo. Se a IA alterasse a pasta em que
@@ -264,10 +301,39 @@ Um arquivo em JSON, que é um jeito de escrever dados. A forma que ele tem de te
 | `pastas_de_trabalho` | os caminhos das pastas que a IA altera |
 | `comando_da_ia` | as palavras do comando que abre o programa da IA; a primeira palavra é o programa |
 | `pedido_de_outro_usuario` | as palavras do comando que, neste computador, roda outro comando com outro usuário; a primeira palavra é o programa, e a palavra `{usuario}` marca o lugar do nome do usuário |
-| `textos` | os textos que a peça mostra: um para cada conferência que falha, um para o que ela fez, um para o que ela faria, na prévia, e um para o que a conferência encontrou |
+| `textos` | os textos que a peça mostra: um para cada conferência que falha, um para o que ela fez, um para o que ela faria, na prévia, e um para o que a conferência encontrou (ver [Os textos](#os-textos)) |
 
 Caminho é o endereço de um arquivo no disco. O caminho que não começa no início do disco conta a
 partir da pasta da configuração.
+
+### Os textos
+
+Cada texto é um modelo: um texto com lugares marcados entre chaves, que a peça preenche (ver
+[modelo-de-texto](../../central/modelo-de-texto/README.md)).
+
+| Chave | Quando a peça mostra | Lugares |
+| --- | --- | --- |
+| `sistema_nao_atendido` | o sistema não tem a sua parte da peça | `{sistema}` |
+| `falta_ferramenta` | falta uma ferramenta que a parte do sistema usa | `{ferramenta}` |
+| `sem_administrador` | a peça não está rodando como administrador | nenhum |
+| `ia_com_nome_repetido` | o usuário da IA tem o nome da pessoa ou o do dono dos itens | `{usuario}` |
+| `ia_vira_administrador` | o usuário da IA vira administrador sem senha | `{usuario}` |
+| `item_em_pasta_de_trabalho` | um item está dentro de uma pasta de trabalho | `{item}`, `{pasta}` |
+| `pasta_acima_aberta` | uma pasta acima de um item está aberta para o usuário da IA | `{pasta}`, `{item}` |
+| `atalho_para_fora` | um atalho de dentro de uma pasta da lista leva a um arquivo que não está na lista | `{atalho}`, `{destino}` |
+| `item_de_outro_dono_aberto` | um item de outro dono está aberto para o usuário da IA | `{item}`, `{dono}` |
+| `onde_vai_aparecer_com_outros` | a pasta em que um item que ainda não existe vai aparecer guarda algo que não é item nem leva a um | `{pasta}`, `{caminho}` |
+| `pasta_de_trabalho_em_item` | uma pasta de trabalho está dentro de um item | `{pasta}`, `{item}` |
+| `pasta_de_trabalho_com_outro_dono` | algo numa pasta de trabalho é de outro dono | `{caminho}`, `{dono}` |
+| `fez` | cada coisa que a peça fez | `{passo}`, `{alvo}` |
+| `faria` | na prévia, cada coisa que a peça faria | `{passo}`, `{alvo}` |
+| `encontrou` | cada tentativa que a conferência do passo 8 achou | `{caminho}`, `{tipo}` |
+
+O `{passo}` é o número do passo. O `{alvo}` é o usuário criado, o caminho que mudou ou o comando
+que abre a IA. O `{caminho}` e o `{tipo}` são os da tentativa, como a
+[conferencia-de-protecao](../../central/conferencia-de-protecao/README.md#desprotegidos) os
+entrega; na tentativa de virar administrador, que não é de nenhum arquivo, o `{caminho}` fica
+vazio.
 
 ### Os sistemas
 
@@ -276,10 +342,39 @@ O que muda dentro de um mesmo tipo de sistema vem da configuração, como o jeit
 comando com outro usuário. Num sistema que a peça não atende, ou em que falta uma dessas
 ferramentas, ela para sem mudar nada e diz o que falta.
 
+| Sistema | As ferramentas que ele tem de ter |
+| --- | --- |
+| Linux | `useradd`, que cria usuários, e `setfacl`, que dá direitos a um usuário só |
+
+### Os arquivos de código
+
+| Arquivo | O que faz |
+| --- | --- |
+| `ajuste_de_protecao.py` | lê a configuração e a lista, faz as conferências de antes do ajuste e os oito passos, ou a prévia, e mostra os textos |
+| `linux.py` | a parte do Linux: o que o ajuste faz com o que o Linux traz, como criar os usuários, fechar e abrir os caminhos e rodar a conferência com o usuário da IA |
+
+O arquivo da parte de um sistema tem o nome que o Python dá a esse sistema. A parte de outro
+sistema dá os mesmos nomes que a do Linux, cada um com o mesmo serviço.
+
 ### O que dá erro
 
 A peça dá erro, sem mudar nada, quando a configuração ou a lista não seguem o molde. O erro diz
 o arquivo e o lugar do valor errado.
+
+Dá erro também, sem mudar nada, quando o usuário da pessoa não existe no computador, quando uma
+pasta de trabalho não existe, quando o pedido de outro usuário não traz o lugar `{usuario}` em
+nenhuma palavra ou traz um lugar com outro nome, e quando um texto traz um lugar que não é dele.
+Se um passo não dá certo, a peça para nele, mostra o que já fez e dá o erro do passo.
+
+### Como a peça termina
+
+Quando acaba, o comando entrega um número, o código de saída, que diz como foi:
+
+| Código de saída | Quando |
+| --- | --- |
+| 0 | o ajuste foi feito e a conferência do passo 8 não achou nada; na prévia, as conferências de antes passaram |
+| 1 | uma conferência de antes do ajuste não passou, ou a do passo 8 achou alguma tentativa |
+| outro | a peça não conseguiu fazer o trabalho: erro nos dados, um passo que não deu certo ou uma quebra da própria peça |
 
 ## Testes
 

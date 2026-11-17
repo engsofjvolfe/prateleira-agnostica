@@ -7,6 +7,25 @@ prateleira segue o [Versionamento Semântico](https://semver.org/lang/pt-BR/spec
 
 ## [Não publicado]
 
+## [0.9.0] - 2026-11-17
+
+### Adicionado
+
+- O código da peça ajuste-de-protecao, de ganchos, com o molde da configuração e a parte do
+  Linux: antes de mudar qualquer coisa, ela confere se o computador está pronto; cria o usuário
+  da IA e o dono dos itens; fecha os itens, a lista, a configuração, a pasta dela e a da central;
+  abre o caminho até eles e as pastas de trabalho; monta o comando que abre a IA; e confere o
+  ajuste com o usuário da IA. Com a prévia, só mostra o que faria.
+
+### Modificado
+
+- O README da peça ajuste-de-protecao: a pessoa roda a peça com a IA fechada; o usuário da IA lê
+  o que se fecha; as pastas acima de um item contam também pelo lugar real; as pastas de trabalho
+  se abrem com o usuário da pessoa, com o limite dos arquivos que já nascem fechados; o passo 8
+  testa também a lista, a configuração, a peça e a central; a pasta que falta nasce fechada; duas
+  conferências novas de antes do ajuste; os textos, os sistemas, os arquivos de código, o que dá
+  erro e o código de saída.
+
 ## [0.8.0] - 2026-11-16
 
 ### Adicionado
@@ -75,7 +94,8 @@ prateleira segue o [Versionamento Semântico](https://semver.org/lang/pt-BR/spec
   busca-por-palavra, leitura-completa, destino-da-limpeza e chamadas-permitidas.
 - A peça busca-por-palavra, de ganchos.
 
-[não publicado]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.8.0...HEAD
+[não publicado]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.9.0...HEAD
+[0.9.0]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.6.0...v0.8.0
 [0.6.0]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/engsofjvolfe/prateleira-agnostica/compare/v0.4.0...v0.5.0
