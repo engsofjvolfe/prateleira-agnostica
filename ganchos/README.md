@@ -23,13 +23,17 @@ ou "antes, leia isto". Esses vigias são os ganchos.
 - Cada uma é escrita em Python e só usa o que já vem com o Python e as peças da
   [central](../central/README.md).
 - O próprio programa se configura para chamar os vigias: ali se diz quais vigias rodam e em
-  que momentos. Se o programa consegue barrar um uso também quando um vigia falha ou nem
-  chega a rodar, vale ligar essa opção: ela fecha o último buraco.
+  que momentos. O que mais o programa e o computador precisam ter para a IA não alcançar os
+  vigias, como barrar o uso quando um vigia não responde, está em
+  [o que precisa estar feito no computador](../central/conferencia-de-protecao/README.md#o-que-precisa-estar-feito-no-computador),
+  na conferencia-de-protecao.
 - O comando que chama um vigia começa pelo `roda.py` da central (ver
   [roda](../central/roda/README.md)).
 - O que é do projeto chega pelo comando que chama o vigia: a configuração dele, na opção
   `--config`; a folha do protocolo (ver [protocolo](../central/protocolo/README.md)), na
-  opção `--protocolo`; e os textos que ele mostra.
+  opção `--protocolo`; a lista dos arquivos que o projeto fechou para a IA (ver
+  [conferencia-de-protecao](../central/conferencia-de-protecao/README.md#a-lista)), na opção
+  `--lista`; e os textos que ele mostra.
 - O vigia que lê uma linha do terminal usa a
   [leitura-do-terminal](../central/leitura-do-terminal/README.md), com a configuração dela
   na opção `--terminal`. Quando o projeto liga a cancela de

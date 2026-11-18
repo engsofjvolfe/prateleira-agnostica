@@ -2,11 +2,15 @@
 
 Lê o formulário do programa pela entrada padrão, em JSON, pela folha do protocolo
 (--protocolo), e anota, de cada sessão, até que linha cada arquivo foi lido, num arquivo da
-pasta de estado da configuração (--config). Em cada momento:
+pasta de estado da configuração (--config). A cada consulta, antes de tudo, pergunta à
+conferencia-de-protecao, com a lista (--lista), se a IA continua sem conseguir alterar os
+arquivos que o projeto fechou para ela; enquanto ela consegue, barra todo uso e trava o fim,
+com o que a conferência achou, e não anota nada. Em cada momento:
   - antes de um uso: o de uma ferramenta de leitura só passa quando a entrada só tem os
     campos que a folha conhece para ela e a leitura começa na primeira linha do arquivo ou na
     seguinte à última lida dele; o de uma ferramenta de escrita (uma troca ou um inteiro da
-    folha) só passa quando nenhum arquivo está lido só em parte; o de uma ferramenta que lê de
+    folha) barra quando cai na pasta de estado e, fora dela, só passa quando nenhum arquivo
+    está lido só em parte; o de uma ferramenta que lê de
     outro jeito (a do terminal, as de busca e as de resumo da folha) barra, com o nome dela; o
     de outra ferramenta passa calado;
   - depois de um lote de usos: anota, de cada leitura, as linhas que vieram de fato, pelos
@@ -38,6 +42,7 @@ from pathlib import Path
 
 import protocolo
 from conferencia_de_molde import le_conferido
+from conferencia_de_protecao import achados_da_lista
 from erro_de_dados import ErroDeDados
 from expressao_regular import compila
 from leitura_de_texto import CODIFICACAO, le_texto
@@ -179,7 +184,19 @@ def outros_leitores(proto):
     return {proto["terminal"]["ferramenta"], *proto["buscas"], *proto["resumos"]}
 
 
-def antes(proto, partes, anotado):
+def na_pasta_de_estado(proto, entrada, pasta, estado):
+    """Os arquivos que a escrita alteraria dentro da pasta de estado, pelos campos de caminho da
+    folha, em ordem. Erro (ErroDeDados) quando a escrita não traz nenhum desses campos, porque
+    aí não se sabe onde ela cai."""
+    campos = proto["escritas"]["campos_caminho"]
+    valores = [entrada[campo] for campo in campos if isinstance(entrada.get(campo), str) and entrada[campo]]
+    if not valores:
+        raise ErroDeDados(f"a escrita não traz o caminho num campo que a folha conhece: {campos}")
+    chaves = (chave_do(valor, pasta) for valor in valores)
+    return [chave for chave in chaves if Path(chave).is_relative_to(estado)]
+
+
+def antes(proto, partes, anotado, estado):
     """As partes que barram o uso de antes, pela ferramenta dele."""
     ferramenta, entrada = partes.get("ferramenta"), partes.get("entrada")
     if not isinstance(ferramenta, str) or not isinstance(entrada, dict):
@@ -187,7 +204,7 @@ def antes(proto, partes, anotado):
     if ferramenta in proto["leituras"]:
         return confere_leitura(proto["leituras"][ferramenta], entrada, partes.get("pasta"), anotado)
     if ferramenta in escritas(proto):
-        return em_parte(anotado)
+        return na_pasta_de_estado(proto, entrada, partes.get("pasta"), estado) or em_parte(anotado)
     if ferramenta in outros_leitores(proto):
         return [ferramenta]
     return []
@@ -246,17 +263,22 @@ def trabalho(args, texto):
     textos = {"nega": le_texto(args.motivo), "trava": le_texto(args.fim)}
     partes = protocolo.le_evento(proto, texto)
     arquivo = protocolo.anotacao(config["estado"], partes.get("sessao"))
+    achados = achados_da_lista(args.lista)
     if partes["evento"] == "lote":
+        if achados:  # com a proteção aberta, a anotação não se grava
+            return None
         with trancado(arquivo):
             anotado = le_anotado(arquivo)
             if anota_lote(proto, partes, anotado):
                 grava_anotado(arquivo, anotado)
         return None
-    anotado = le_anotado(arquivo)
-    if partes["evento"] == "fim":
-        qual, causas = "trava", em_parte(anotado)
+    qual = "trava" if partes["evento"] == "fim" else "nega"
+    if achados:
+        causas = achados
+    elif qual == "trava":
+        causas = em_parte(le_anotado(arquivo))
     else:
-        qual, causas = "nega", antes(proto, partes, anotado)
+        causas = antes(proto, partes, le_anotado(arquivo), config["estado"].resolve())
     if not causas:
         return None
     return protocolo.resposta(proto, qual, textos[qual].rstrip() + QUEBRA + QUEBRA.join(causas))
@@ -266,6 +288,8 @@ def main(argumentos=None):
     leitor = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     leitor.add_argument("--config", required=True, type=Path, help="a configuração da peça")
     leitor.add_argument("--protocolo", required=True, type=Path, help="a folha do protocolo do programa")
+    leitor.add_argument("--lista", required=True, type=Path,
+                        help="a lista dos arquivos e das pastas que o projeto fechou para a IA")
     leitor.add_argument("--motivo", required=True, type=Path, help="o texto do uso barrado")
     leitor.add_argument("--fim", required=True, type=Path, help="o texto da resposta travada")
     args = leitor.parse_args(argumentos)

@@ -5,11 +5,13 @@ Os usuários se criam com o useradd, cada um com um grupo só dele. O dono e os 
 Python, pelo arquivo já aberto: assim, uma pasta trocada por um atalho no meio da mudança não desvia a peça para outro
 lugar. O direito dado a um usuário só vem do setfacl, a ferramenta das listas de direitos do Linux. O que um usuário
 consegue fazer se pergunta ao próprio computador, num pedaço desta peça que deixa de ser o administrador e passa a ser
-esse usuário, sem volta; é também com o usuário da pessoa que as pastas de trabalho se abrem.
+esse usuário, sem volta; é também com o usuário da pessoa que as pastas de trabalho se abrem. A regra da permissão se
+grava num arquivo novo, numa pasta nova só do administrador, e só se liga no lugar depois de conferida.
 
 Dá à peça os nomes que a parte de todo sistema dá: ferramentas_que_faltam, eh_administrador, administrador, existe,
-dono, cria_usuario, vira_administrador, alteraveis, sem_entrada, sem_leitura, fechado, fecha, cria_pasta_fechada,
-da_leitura, abre_entrada, abre_pasta_de_trabalho, mostra_comando e com_o_usuario.
+dono, cria_usuario, vira_administrador, fim_com_o_usuario, alteraveis, sem_entrada, sem_leitura, fechado, fecha,
+cria_pasta_fechada, da_leitura, abre_entrada, abre_pasta_de_trabalho, so_o_administrador_altera, poe_regra, tira_regra,
+mostra_comando e com_o_usuario.
 
 Os erros são o ErroDeDados e os do próprio sistema, quando ele recusa uma mudança.
 """
@@ -20,6 +22,8 @@ import pwd
 import shlex
 import shutil
 import stat
+import struct
+import tempfile
 
 from erro_de_dados import ErroDeDados
 from leitura_de_json import de_json
@@ -43,6 +47,12 @@ SO_O_DONO = stat.S_IRWXU  # a pasta que só o dono alcança: é como uma pasta n
 PASTA_FECHADA = SO_O_DONO | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH  # só o dono altera; todos leem
 TUDO = "rwX"  # para o setfacl, ler, alterar e entrar nas pastas, sem tornar programa um arquivo que não é
 POR_VEZ = 256  # quantos caminhos vão num só comando do setfacl, para o comando não passar do tamanho que o sistema aceita
+VERSAO_DA_LISTA = 2  # a versão com que o Linux grava a lista de direitos de um caminho
+CABECA_DA_LISTA = struct.Struct("<I")  # o começo da lista de direitos gravada: a versão
+LINHA_DA_LISTA = struct.Struct("<HHI")  # cada linha dela: a marca, os direitos e o número de quem os recebe
+UM_USUARIO = 0x02  # a marca da linha da lista de direitos que dá direitos a um usuário só
+MODO_DA_REGRA = stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH  # a regra: todos leem, e só o administrador altera
+FIM_DE_LINHA = "\n"  # o fim de toda linha de um arquivo de texto, também da última
 
 
 def ferramentas_que_faltam():
@@ -110,10 +120,15 @@ def _fim_do_pedido(pedido):
         return QUEBROU
 
 
+def fim_com_o_usuario(usuario, comando):
+    """Como o comando acabou, rodado com o usuário: PASSOU, NAO_PASSOU ou QUEBROU."""
+    return com_o_usuario(usuario, _fim_do_pedido, comando)
+
+
 def vira_administrador(usuario, pedido_de_administrador):
     """Se o usuário consegue rodar como administrador sem senha, pelo pedido de administrador. Só conta como o pedido
     acabou: o que não acaba recusando conta como sim, porque na dúvida o usuário vira administrador."""
-    return com_o_usuario(usuario, _fim_do_pedido, pedido_de_administrador) != NAO_PASSOU
+    return fim_com_o_usuario(usuario, pedido_de_administrador) != NAO_PASSOU
 
 
 def _pedido_ao_access(direitos):
@@ -263,13 +278,36 @@ def _letras(direitos):
     return "".join(letra if direitos & direito else "-" for letra, direito in LETRAS)
 
 
+def _ja_dados(caminho, numero):
+    """Os direitos que a lista de direitos do caminho já dá ao usuário do número, um a um; nenhum quando o caminho não
+    tem a lista ou ela não o cita. Erro (ErroDeDados) quando a lista tem uma versão que esta parte não lê."""
+    try:
+        lista = os.getxattr(caminho, ACESSO)
+    except OSError as erro:
+        if erro.errno in SEM_LISTA:
+            return 0
+        raise
+    (versao,) = CABECA_DA_LISTA.unpack_from(lista)
+    if versao != VERSAO_DA_LISTA:
+        raise ErroDeDados(f"{caminho}: lista de direitos de uma versão que esta parte não lê: {versao}")
+    direitos = 0
+    for inicio in range(CABECA_DA_LISTA.size, len(lista) - LINHA_DA_LISTA.size + 1, LINHA_DA_LISTA.size):
+        marca, dados, quem = LINHA_DA_LISTA.unpack_from(lista, inicio)
+        if marca == UM_USUARIO and quem == numero:
+            direitos |= dados
+    return direitos
+
+
 def _da(usuario, caminho, direitos, mais, menos):
-    """Dá ao usuário os direitos no caminho, e só esses. A lista de direitos tem um limite comum aos direitos dados um
-    a um; ele parte do que é hoje, que o Linux guarda no lugar do direito do grupo, ganha os direitos a mais e perde
-    os a menos. Assim, quem tinha um direito limitado continua limitado."""
+    """Dá ao usuário os direitos no caminho, somados aos que ele já tinha ali, dados a ele um a um. A lista de
+    direitos tem um limite comum aos direitos dados um a um; ele parte do que é hoje, que o Linux guarda no lugar do
+    direito do grupo, ganha os direitos a mais e perde os a menos. Assim, quem tinha um direito limitado continua
+    limitado, e o direito que um passo deu não some no passo seguinte."""
+    numero = _numero(usuario)
     hoje = (stat.S_IMODE(os.stat(caminho).st_mode) >> DO_GRUPO) & (LER | ALTERAR | ENTRAR)
     limite = (hoje | mais) & ~menos
-    _roda([DA_DIREITOS, "-n", "-m", f"u:{_numero(usuario)}:{_letras(direitos)},m::{_letras(limite)}", "--", caminho])
+    seus = _ja_dados(caminho, numero) | direitos
+    _roda([DA_DIREITOS, "-n", "-m", f"u:{numero}:{_letras(seus)},m::{_letras(limite)}", "--", caminho])
 
 
 def da_leitura(usuario, caminho):
@@ -280,7 +318,8 @@ def da_leitura(usuario, caminho):
 
 
 def abre_entrada(usuario, pasta):
-    """Dá ao usuário o direito de entrar na pasta, e só esse. O limite comum ganha só o direito de entrar."""
+    """Dá ao usuário o direito de entrar na pasta, sem tirar o de ler que ele já tinha ali. O limite comum ganha só o
+    direito de entrar."""
     _da(usuario, pasta, ENTRAR, ENTRAR, 0)
 
 
@@ -314,12 +353,55 @@ def _abre_aqui(pasta, direitos):
         _roda([DA_DIREITOS, "-d", "-m", direitos, "--", *lote])
 
 
-def abre_pasta_de_trabalho(usuario_da_ia, usuario_da_pessoa, pasta):
-    """Abre a pasta de trabalho para o usuário da IA e para o da pessoa, com o que está nela e o que nascer nela
-    depois. O trabalho se faz com o usuário da pessoa, e não como administrador: assim, só muda o que já é da pessoa,
-    mesmo que algo mude na pasta enquanto a peça trabalha. A pasta se trata pelo lugar a que ela leva."""
-    direitos = ",".join(f"u:{_numero(usuario)}:{TUDO}" for usuario in (usuario_da_ia, usuario_da_pessoa))
+def abre_pasta_de_trabalho(usuarios, usuario_da_pessoa, pasta):
+    """Abre a pasta de trabalho para os usuários e para o da pessoa, com o que está nela e o que nascer nela depois. O
+    trabalho se faz com o usuário da pessoa, e não como administrador: assim, só muda o que já é da pessoa, mesmo que
+    algo mude na pasta enquanto a peça trabalha. A pasta se trata pelo lugar a que ela leva."""
+    direitos = ",".join(f"u:{_numero(usuario)}:{TUDO}" for usuario in (*usuarios, usuario_da_pessoa))
     com_o_usuario(usuario_da_pessoa, _abre_aqui, os.path.realpath(pasta), direitos)
+
+
+def so_o_administrador_altera(caminho):
+    """Se só o administrador altera o caminho: ele é o dono, e nem o grupo nem os outros têm o direito de alterar. Com
+    direitos dados a usuários um a um, o direito do grupo é o limite comum deles: sem ele, nenhum deles altera."""
+    estado = os.stat(caminho)
+    return estado.st_uid == ADMINISTRADOR and not estado.st_mode & ESCRITA_DOS_OUTROS
+
+
+def _tira_se_existe(caminho):
+    """Apaga o arquivo, quando ele existe."""
+    try:
+        os.unlink(caminho)
+    except FileNotFoundError:
+        pass
+
+
+def poe_regra(arquivo, texto, passa):
+    """Põe a regra no arquivo: grava o texto num arquivo novo, que já nasce fechado, numa pasta nova que só o
+    administrador alcança, ao lado da pasta do arquivo, e confere o arquivo novo com o passa, que recebe o caminho dele
+    e diz se a regra está certa. Só com a regra certa o arquivo novo se liga no lugar, de uma vez, e só se o lugar
+    ainda estiver vazio. Devolve se a regra foi posta; a recusada não muda nada."""
+    linhas = texto if texto.endswith(FIM_DE_LINHA) else texto + FIM_DE_LINHA
+    pasta_nova = tempfile.mkdtemp(dir=os.path.dirname(os.path.dirname(arquivo)))
+    novo = os.path.join(pasta_nova, os.path.basename(arquivo))
+    try:
+        descritor = os.open(novo, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_CLOEXEC, MODO_DA_REGRA)
+        with os.fdopen(descritor, "w", encoding=CODIFICACAO) as saida:
+            saida.write(linhas)
+            saida.flush()
+            os.fsync(saida.fileno())
+        if not passa(novo):
+            return False
+        os.link(novo, arquivo)
+        return True
+    finally:
+        _tira_se_existe(novo)
+        os.rmdir(pasta_nova)
+
+
+def tira_regra(arquivo):
+    """Tira o arquivo da regra que a peça pôs."""
+    os.unlink(arquivo)
 
 
 def mostra_comando(comando):

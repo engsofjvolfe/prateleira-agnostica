@@ -8,6 +8,9 @@ deixa a resposta terminar quando cada arquivo escrito na tarefa foi lido do come
 passou nas conferências que o projeto liga a ele e, se é dos que só uma pessoa confere, tem o ok dela para o conteúdo
 de agora.
 
+- A cada consulta, antes de tudo: pergunta à conferencia-de-protecao, com a lista (--lista), se a IA continua sem
+  conseguir alterar os arquivos que o projeto fechou para ela; enquanto ela consegue, barra todo uso que consulta e
+  trava o fim, com o que a conferência achou, e não anota nada.
 - Antes de uma escrita: barra a escrita na pasta das anotações e, enquanto um arquivo espera o ok de uma pessoa, a
   escrita em outro; na primeira escrita num arquivo, ou na volta a ele depois de escrever em outro, entrega os textos
   de regras ligados a ele; e anota o arquivo como escrito, sem leitura e sem ok.
@@ -39,6 +42,7 @@ from pathlib import Path
 
 import protocolo_temporario as protocolo
 from conferencia_de_molde import le_conferido
+from conferencia_de_protecao import achados_da_lista
 from erro_de_dados import ErroDeDados
 from leitura_de_json import le_json
 from leitura_de_texto import CODIFICACAO, le_texto
@@ -68,6 +72,7 @@ PARCIAL = ".parcial"  # o fim do nome da anotação enquanto ela se grava; a que
 IMPRESSAO_DIGITAL = "sha256"  # a conta que guarda, no ok, o conteúdo do arquivo
 
 BARRAM = {"antes": "nega", "fim": "trava"}  # os momentos que deixam barrar, cada um com o modelo com que se barra
+TEXTO_DE = {"antes": "bloqueio", "fim": "fim"}  # o texto que abre o aviso de cada momento que deixa barrar
 
 
 def ler_configuracao(arquivo):
@@ -393,6 +398,11 @@ def trata(args, proto, partes):
     for texto in textos.values():  # o texto que falta dá erro em todo momento, também no que não o usa
         le_texto(texto)
     evento = partes["evento"]
+    achados = achados_da_lista(args.lista)
+    if achados:  # com a proteção aberta, barra no momento que deixa barrar e, nos outros, não anota nada
+        if evento not in BARRAM:
+            return None
+        return protocolo.resposta(proto, BARRAM[evento], aviso(textos[TEXTO_DE[evento]], achados))
     if evento == "antes" and partes.get("ferramenta") == proto["terminal"]["ferramenta"]:
         return antes_do_terminal(terminal, proto, partes, textos)
     if evento == "antes":
@@ -412,6 +422,8 @@ def main(argumentos=None):
     leitor.add_argument("--config", required=True, type=Path, help="a configuração do vigia")
     leitor.add_argument("--terminal", required=True, type=Path, help="a configuração do terminal")
     leitor.add_argument("--protocolo", required=True, type=Path, help="a folha do protocolo do programa")
+    leitor.add_argument("--lista", required=True, type=Path,
+                        help="a lista dos arquivos e das pastas que o projeto fechou para a IA")
     leitor.add_argument("--fim", required=True, type=Path, help="o texto que abre o aviso do fim da resposta")
     leitor.add_argument("--bloqueio", required=True, type=Path, help="o texto que abre o aviso de bloqueio")
     args = leitor.parse_args(argumentos)

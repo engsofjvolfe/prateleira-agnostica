@@ -1,6 +1,9 @@
 """
 O vigia que barra a busca por palavra.
 
+Antes de tudo, pergunta à conferencia-de-protecao, com a lista (--lista), se a IA continua sem conseguir alterar os
+arquivos que o projeto fechou para ela; enquanto ela consegue, barra todo uso, com o que a conferência achou.
+
 Antes de um uso da ferramenta de terminal: barra o comando de busca, ou um de dentro de
 outro, quando um padrão dele não é um dos livres; quando ele tira os padrões de um arquivo;
 quando não dá para saber o que ele procura; e barra a linha que não se lê. Antes de um uso
@@ -24,6 +27,7 @@ from pathlib import Path
 
 import protocolo
 from conferencia_de_molde import le_conferido
+from conferencia_de_protecao import achados_da_lista
 from erro_de_dados import ErroDeDados
 from expressao_regular import compila
 from leitura_de_texto import le_texto
@@ -195,6 +199,9 @@ def responde(args, formulario):
     partes = protocolo.le_evento(folha, formulario)
     if partes["evento"] != MOMENTO:
         raise ErroDeDados(f"o vigia trata só o momento de antes de um uso, e chegou o de {partes['evento']}")
+    achados = achados_da_lista(args.lista)
+    if achados:
+        return protocolo.resposta(folha, RESPOSTA, motivo + QUEBRA + QUEBRA.join(achados))
     parte = o_que_barra(config, folha, exatas, partes)
     return None if parte is None else protocolo.resposta(folha, RESPOSTA, motivo + QUEBRA + parte)
 
@@ -205,6 +212,8 @@ def main(argumentos=None):
                         help="a configuração, com os comandos de busca e os padrões livres")
     leitor.add_argument("--terminal", required=True, type=Path, help="a configuração do terminal")
     leitor.add_argument("--protocolo", required=True, type=Path, help="a folha do protocolo")
+    leitor.add_argument("--lista", required=True, type=Path,
+                        help="a lista dos arquivos e das pastas que o projeto fechou para a IA")
     leitor.add_argument("--motivo", required=True, type=Path, help="o texto do motivo do bloqueio")
     leitor.add_argument("--exatas", nargs=2, action="append", metavar=("ARQUIVO", "FORMA"),
                         help="o arquivo de uma busca exata e a forma de cada padrão dela, uma expressão regular; "

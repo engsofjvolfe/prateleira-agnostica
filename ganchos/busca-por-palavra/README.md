@@ -19,6 +19,10 @@ só acha o lugar, e o que ela acha se lê inteiro; aí o projeto desliga este vi
 
 ## Como funciona
 
+- **Antes de tudo:** pergunta à
+  [conferencia-de-protecao](../../central/conferencia-de-protecao/README.md) se a IA continua
+  sem conseguir alterar os arquivos que o projeto fechou para ela, como a configuração deste
+  vigia. Enquanto ela consegue, barra todo uso.
 - **No terminal:** barra o comando de busca, ou um comando de busca de dentro de outro,
   quando o que se procura (o padrão) não é um dos liberados. Quais comandos são de busca, o
   projeto diz na configuração. Barra também a busca que tira de um arquivo o que procurar, a
@@ -33,16 +37,19 @@ terminal e das de busca, com este comando:
 
     python3 -I <pasta da central>/roda/roda.py <pasta da peça>/busca_por_palavra.py \
         --config <configuração> --terminal <configuração do terminal> \
-        --protocolo <protocolo> --motivo <texto>
+        --protocolo <protocolo> --lista <lista> --motivo <texto>
 
 Nas pastas de dados dele ficam: a configuração, a configuração do terminal, a folha do
-protocolo e o texto do motivo do bloqueio.
+protocolo, a lista e o texto do motivo do bloqueio.
 
 ## Detalhes
 
 ### As opções
 
-- `--motivo`: o texto do bloqueio, que vem antes da parte do comando que o causou.
+- `--lista`: a lista dos arquivos e das pastas que o projeto fechou para a IA, na forma que a
+  [conferencia-de-protecao](../../central/conferencia-de-protecao/README.md#a-lista) pede.
+- `--motivo`: o texto do bloqueio, que vem antes da parte do comando que o causou ou do que a
+  conferencia-de-protecao achou.
 - `--exatas <arquivo> <forma>`: liga a busca exata para um arquivo. A forma é a expressão
   regular que cada padrão tem de seguir inteiro. A opção vem uma vez para cada arquivo, cada
   um com a sua forma. O caminho do arquivo parte da pasta de onde o comando roda. No comando
@@ -88,9 +95,9 @@ o do padrão. Para a busca exata, também a pasta de onde o uso roda.
 
 ### O que dá erro
 
-Falta o texto do motivo ou a configuração do terminal; um arquivo não segue o seu molde; uma
-opção aparece mais de uma vez nas listas de um comando de busca; o momento não é o de antes
-de um uso; a ferramenta não é de terminal nem de busca; e, com `--exatas`, o arquivo não
+Falta o texto do motivo, a configuração do terminal ou a lista; um arquivo não segue o seu
+molde; uma opção aparece mais de uma vez nas listas de um comando de busca; o momento não é o
+de antes de um uso; a ferramenta não é de terminal nem de busca; e, com `--exatas`, o arquivo não
 existe ou a forma não é uma expressão regular. Nesses casos, o vigia escreve o erro na saída
 de erro e sai com erro, sem responder nada.
 

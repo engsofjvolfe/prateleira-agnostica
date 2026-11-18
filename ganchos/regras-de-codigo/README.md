@@ -22,6 +22,11 @@ do erro e as linhas que faltam ler.
 Uma tarefa vai da primeira escrita num arquivo até o fim da resposta em que tudo passou. O
 vigia não cria conferências: roda as que o projeto der.
 
+A cada consulta, antes de tudo, o vigia pergunta à
+[conferencia-de-protecao](../../central/conferencia-de-protecao/README.md) se a IA continua sem
+conseguir alterar os arquivos que o projeto fechou para ela, como as anotações deste vigia.
+Enquanto ela consegue, ele barra todo uso que consulta e não deixa a resposta terminar.
+
 1. **Quando a IA vai escrever num arquivo:** se é a primeira escrita nele na tarefa, ou se
    ela volta a ele depois de escrever em outro, o vigia entrega a ela os textos de regras
    que o projeto liga àquele arquivo. Depois, anota o arquivo como escrito.
@@ -65,11 +70,11 @@ mensagem da pessoa e no fim de cada resposta, sempre com o mesmo comando, que pa
 
     python3 -I <pasta da central>/roda/roda.py <pasta da peça>/regras_de_codigo.py \
         --config <configuração> --terminal <configuração do terminal> \
-        --protocolo <protocolo> --fim <texto> --bloqueio <texto>
+        --protocolo <protocolo> --lista <lista> --fim <texto> --bloqueio <texto>
 
 Nas pastas de dados dele ficam: a configuração, a configuração do terminal, a folha do
-protocolo, os textos das regras, as conferências, o texto do aviso do fim e o texto do aviso
-do bloqueio.
+protocolo, a lista, os textos das regras, as conferências, o texto do aviso do fim e o texto do
+aviso do bloqueio.
 
 ## Detalhes
 
@@ -78,9 +83,12 @@ do bloqueio.
 - `--config`: a configuração do vigia.
 - `--terminal`: a configuração do terminal.
 - `--protocolo`: a folha do [protocolo](../../central/protocolo/README.md) do programa.
-- `--fim`: o texto que abre o aviso do fim da resposta, antes da lista do que falta.
+- `--lista`: a lista dos arquivos e das pastas que o projeto fechou para a IA, na forma que a
+  [conferencia-de-protecao](../../central/conferencia-de-protecao/README.md#a-lista) pede.
+- `--fim`: o texto que abre o aviso do fim da resposta, antes da lista do que falta ou do que a
+  conferencia-de-protecao achou.
 - `--bloqueio`: o texto que abre o aviso de bloqueio, antes da parte do comando ou da escrita
-  que o causou.
+  que o causou, ou do que a conferencia-de-protecao achou.
 
 ### As conferências
 
@@ -98,6 +106,8 @@ conferência tem de dar sempre a mesma resposta para o mesmo arquivo.
 
 ### O que é barrado
 
+- Enquanto a IA consegue alterar um arquivo que o projeto fechou para ela: todo uso que o
+  vigia consulta e o fim da resposta.
 - A escrita da IA na pasta das anotações do vigia.
 - Enquanto falta o ok de uma pessoa, a escrita da IA em qualquer arquivo que não espera o ok.
 - No terminal, o comando que escreve num arquivo: o que manda a saída para um arquivo com
@@ -143,7 +153,7 @@ a quantidade de linhas.
 
 ### O que dá erro
 
-Falta um dos textos ou uma das configurações; um arquivo não segue o seu molde; o momento
+Falta um dos textos, uma das configurações ou a lista; um arquivo não segue o seu molde; o momento
 não é conhecido; a sessão não tem identificação; a ferramenta de escrita não traz um campo
 de caminho que a folha conhece; a ferramenta de leitura não traz os campos que a folha
 conhece; a conferência da configuração não existe.
