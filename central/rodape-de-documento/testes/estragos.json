@@ -1,0 +1,479 @@
+{
+  "versao_schema": 1,
+  "estragos": [
+    {
+      "nome": "estrela-nao-pega-vazio",
+      "arquivo": "rodape_de_documento.py",
+      "de": "\".*\" if letra == QUALQUER_PEDACO",
+      "para": "\".+\" if letra == QUALQUER_PEDACO"
+    },
+    {
+      "nome": "interrogacao-pega-vazio",
+      "arquivo": "rodape_de_documento.py",
+      "de": "else \".\" if letra == QUALQUER_CARACTERE",
+      "para": "else \".?\" if letra == QUALQUER_CARACTERE"
+    },
+    {
+      "nome": "duas-estrelas-pedem-uma-parte",
+      "arquivo": "rodape_de_documento.py",
+      "de": "set(range(min(posicoes), len(partes) + 1))",
+      "para": "set(range(min(posicoes) + 1, len(partes) + 1))"
+    },
+    {
+      "nome": "padrao-pega-o-comeco",
+      "arquivo": "rodape_de_documento.py",
+      "de": "return len(partes) in posicoes",
+      "para": "return bool(posicoes)"
+    },
+    {
+      "nome": "expressao-sem-o-grupo",
+      "arquivo": "rodape_de_documento.py",
+      "de": "if grupo is not None and grupo not in expressao.groupindex:",
+      "para": "if False:"
+    },
+    {
+      "nome": "padrao-repetido-passa",
+      "arquivo": "rodape_de_documento.py",
+      "de": "if repetido:",
+      "para": "if False:"
+    },
+    {
+      "nome": "fora-sem-conferir-repetido",
+      "arquivo": "rodape_de_documento.py",
+      "de": "for chave in (\"documentos\", \"fora\")]",
+      "para": "for chave in (\"documentos\",)]"
+    },
+    {
+      "nome": "modelo-com-linhas-em-branco",
+      "arquivo": "rodape_de_documento.py",
+      "de": "while linhas and not linhas[0].strip():",
+      "para": "while False:"
+    },
+    {
+      "nome": "modelo-com-espacos-no-fim",
+      "arquivo": "rodape_de_documento.py",
+      "de": "return QUEBRA_DO_MODELO.join(linhas).rstrip()",
+      "para": "return QUEBRA_DO_MODELO.join(linhas)"
+    },
+    {
+      "nome": "esquema-vira-caminho",
+      "arquivo": "rodape_de_documento.py",
+      "de": "ESQUEMA = re.compile(r\"[A-Za-z][A-Za-z0-9+.\\-]*:\")",
+      "para": "ESQUEMA = re.compile(r\"[A-Za-z][A-Za-z0-9+.\\-]*::\")"
+    },
+    {
+      "nome": "barra-vira-caminho",
+      "arquivo": "rodape_de_documento.py",
+      "de": "ALVOS_QUE_FICAM = (\"#\", \"/\")",
+      "para": "ALVOS_QUE_FICAM = (\"#\",)"
+    },
+    {
+      "nome": "cerquilha-vira-caminho",
+      "arquivo": "rodape_de_documento.py",
+      "de": "ALVOS_QUE_FICAM = (\"#\", \"/\")",
+      "para": "ALVOS_QUE_FICAM = (\"/\",)"
+    },
+    {
+      "nome": "link-para-o-que-nao-existe",
+      "arquivo": "rodape_de_documento.py",
+      "de": "if not os.path.exists(destino):",
+      "para": "if False:"
+    },
+    {
+      "nome": "perde-o-lugar-no-arquivo",
+      "arquivo": "rodape_de_documento.py",
+      "de": "expressao, destino, separador + depois,",
+      "para": "expressao, destino, \"\","
+    },
+    {
+      "nome": "perde-a-barra",
+      "arquivo": "rodape_de_documento.py",
+      "de": "escrito.endswith(BARRA))",
+      "para": "False)"
+    },
+    {
+      "nome": "link-em-parte-sem-link",
+      "arquivo": "rodape_de_documento.py",
+      "de": " or any(_cruzam(*achado.span(), *parte) for parte in sem_link)",
+      "para": ""
+    },
+    {
+      "nome": "links-que-se-cruzam-passam",
+      "arquivo": "rodape_de_documento.py",
+      "de": "if seguinte.inicio < anterior.fim:",
+      "para": "if False:"
+    },
+    {
+      "nome": "campo-no-alvo-passa",
+      "arquivo": "rodape_de_documento.py",
+      "de": "raise erro(f\"o campo {achado.group()!r} fica dentro do alvo de um link\")",
+      "para": "pass"
+    },
+    {
+      "nome": "campo-sem-valor-passa",
+      "arquivo": "rodape_de_documento.py",
+      "de": "raise erro(f\"o campo {nome!r} não tem valor\")",
+      "para": "pass"
+    },
+    {
+      "nome": "data-sem-formato-passa",
+      "arquivo": "rodape_de_documento.py",
+      "de": "raise erro(f\"o campo de data {nome!r} pede o formato_da_data\")",
+      "para": "pass"
+    },
+    {
+      "nome": "mudanca-fora-do-git-passa",
+      "arquivo": "rodape_de_documento.py",
+      "de": "raise erro(f\"o campo {nome!r} pede que a pasta raiz fique num repositório git\")",
+      "para": "pass"
+    },
+    {
+      "nome": "marca-no-modelo-passa",
+      "arquivo": "rodape_de_documento.py",
+      "de": "if tipo.marca is not None and linha.strip() == tipo.marca.strip():",
+      "para": "if False:"
+    },
+    {
+      "nome": "escolha-no-modelo-passa",
+      "arquivo": "rodape_de_documento.py",
+      "de": "for chave in (\"linha_de_escolha\", \"linha_de_secao\", \"linha_de_fim\"):",
+      "para": "for chave in (\"linha_de_secao\", \"linha_de_fim\"):"
+    },
+    {
+      "nome": "secao-no-modelo-passa",
+      "arquivo": "rodape_de_documento.py",
+      "de": "for chave in (\"linha_de_escolha\", \"linha_de_secao\", \"linha_de_fim\"):",
+      "para": "for chave in (\"linha_de_escolha\", \"linha_de_fim\"):"
+    },
+    {
+      "nome": "fim-no-modelo-passa",
+      "arquivo": "rodape_de_documento.py",
+      "de": "for chave in (\"linha_de_escolha\", \"linha_de_secao\", \"linha_de_fim\"):",
+      "para": "for chave in (\"linha_de_escolha\", \"linha_de_secao\"):"
+    },
+    {
+      "nome": "modelo-vazio-passa",
+      "arquivo": "rodape_de_documento.py",
+      "de": "if not texto:\n        raise erro(\"o modelo fica vazio\")",
+      "para": "if False:\n        raise erro(\"o modelo fica vazio\")"
+    },
+    {
+      "nome": "modelo-ilegivel-sem-o-arquivo",
+      "arquivo": "rodape_de_documento.py",
+      "de": "except ErroDeDados as lido:",
+      "para": "except ValueError as lido:"
+    },
+    {
+      "nome": "tipo-que-falta-quebra",
+      "arquivo": "rodape_de_documento.py",
+      "de": "raise ErroDeDados(f\"{arquivo}: {lugar}: o tipo {nome_do_tipo!r} não está em tipos\")",
+      "para": "pass"
+    },
+    {
+      "nome": "secao-sem-linha-passa",
+      "arquivo": "rodape_de_documento.py",
+      "de": "raise ErroDeDados(f\"{arquivo}: {lugar}: o lugar {SECAO!r} pede a linha_de_secao no tipo {nome_do_tipo!r}\")",
+      "para": "pass"
+    },
+    {
+      "nome": "valor-da-peca-passa",
+      "arquivo": "rodape_de_documento.py",
+      "de": "raise ErroDeDados(f\"{arquivo}: {_lugar('campos', 'valores', nome)}: o campo {nome!r} é dado pela peça\")",
+      "para": "pass"
+    },
+    {
+      "nome": "sem-rodape-igual-passa",
+      "arquivo": "rodape_de_documento.py",
+      "de": "raise ErroDeDados(f\"{arquivo}: {_lugar('sem_rodape')}: {sem_rodape!r} é também o nome de um rodapé\")",
+      "para": "pass"
+    },
+    {
+      "nome": "arquivo-de-dados-vira-documento",
+      "arquivo": "rodape_de_documento.py",
+      "de": "if Path(os.path.join(rodapes.raiz, caminho)).resolve() in rodapes.nao_documentos:",
+      "para": "if False:"
+    },
+    {
+      "nome": "dois-tipos-passam",
+      "arquivo": "rodape_de_documento.py",
+      "de": "if len(tipos) > 1:",
+      "para": "if len(tipos) > 2:"
+    },
+    {
+      "nome": "linha-contada-errada",
+      "arquivo": "rodape_de_documento.py",
+      "de": "bisect.bisect_right(",
+      "para": "bisect.bisect_left("
+    },
+    {
+      "nome": "primeira-linha-de-fim",
+      "arquivo": "rodape_de_documento.py",
+      "de": "cauda = (acha(tipo.linha_de_fim, cauda) or [cauda])[-1]",
+      "para": "cauda = (acha(tipo.linha_de_fim, cauda) or [cauda])[0]"
+    },
+    {
+      "nome": "secao-depois-da-cauda",
+      "arquivo": "rodape_de_documento.py",
+      "de": "if inicio < ate and expressao.search",
+      "para": "if expressao.search"
+    },
+    {
+      "nome": "marca-no-comeco-com-secoes",
+      "arquivo": "rodape_de_documento.py",
+      "de": "capacidade = 0 if secoes else 1",
+      "para": "capacidade = 1"
+    },
+    {
+      "nome": "ultima-secao-com-um",
+      "arquivo": "rodape_de_documento.py",
+      "de": "capacidade = 2 if indice == len(secoes) else 1",
+      "para": "capacidade = 1"
+    },
+    {
+      "nome": "mesmo-lugar-passa",
+      "arquivo": "rodape_de_documento.py",
+      "de": "if outro.nome != rodape.nome:",
+      "para": "if False:"
+    },
+    {
+      "nome": "sem-rodape-com-outro-passa",
+      "arquivo": "rodape_de_documento.py",
+      "de": "if outros:",
+      "para": "if False:"
+    },
+    {
+      "nome": "nome-que-nao-e-rodape-quebra",
+      "arquivo": "rodape_de_documento.py",
+      "de": "raise ErroDeDados(f\"{caminho}: linha {numero}: {nome!r} não é o nome de um rodapé\")",
+      "para": "pass"
+    },
+    {
+      "nome": "rodape-sem-modelo-passa",
+      "arquivo": "rodape_de_documento.py",
+      "de": "if tipo.nome not in rodape.modelos:\n            raise",
+      "para": "if False:\n            raise"
+    },
+    {
+      "nome": "escolha-ignorada",
+      "arquivo": "rodape_de_documento.py",
+      "de": "if escolhas:\n            return _escolhidos",
+      "para": "if False:\n            return _escolhidos"
+    },
+    {
+      "nome": "fora-nao-tira",
+      "arquivo": "rodape_de_documento.py",
+      "de": "\n              and not any(_pega(padrao, caminho) for padrao in rodape.fora)]",
+      "para": "]"
+    },
+    {
+      "nome": "secao-no-comeco",
+      "arquivo": "rodape_de_documento.py",
+      "de": "secao, ultima = indice > 0,",
+      "para": "secao, ultima = indice >= 0,"
+    },
+    {
+      "nome": "unico-da-ultima-secao",
+      "arquivo": "rodape_de_documento.py",
+      "de": "return (FIM,) if lugares_da_parte == (FIM,) else (SECAO,)",
+      "para": "return (SECAO,)"
+    },
+    {
+      "nome": "marcas-a-mais-passam",
+      "arquivo": "rodape_de_documento.py",
+      "de": "if len(inicios) > parte.capacidade:",
+      "para": "if False:"
+    },
+    {
+      "nome": "busca-da-secao-sem-limite",
+      "arquivo": "rodape_de_documento.py",
+      "de": "                limite = comeco",
+      "para": "                limite = parte.fim"
+    },
+    {
+      "nome": "espaco-do-modelo-so-espaco",
+      "arquivo": "rodape_de_documento.py",
+      "de": "QUALQUER_ESPACO = r\"\\s+\"",
+      "para": "QUALQUER_ESPACO = r\" \""
+    },
+    {
+      "nome": "quebra-do-modelo",
+      "arquivo": "rodape_de_documento.py",
+      "de": "quebra = primeira.group() if primeira else QUEBRA_DO_MODELO",
+      "para": "quebra = QUEBRA_DO_MODELO"
+    },
+    {
+      "nome": "mudanca-conta-o-rodape",
+      "arquivo": "rodape_de_documento.py",
+      "de": "return _conteudos(_analise(rodapes, caminho[len(prefixo):], texto))",
+      "para": "return (QUEBRA.sub(QUEBRA_DO_MODELO, texto).rstrip(),)"
+    },
+    {
+      "nome": "nao-segue-o-nome",
+      "arquivo": "rodape_de_documento.py",
+      "de": "\"log\", \"--follow\", ",
+      "para": "\"log\", "
+    },
+    {
+      "nome": "renomeado-esquecido",
+      "arquivo": "rodape_de_documento.py",
+      "de": "caminho = renomeados.get(prefixo + analise.caminho, prefixo + analise.caminho)",
+      "para": "caminho = prefixo + analise.caminho"
+    },
+    {
+      "nome": "data-do-autor",
+      "arquivo": "rodape_de_documento.py",
+      "de": "--format=%x00%H%x00%cI",
+      "para": "--format=%x00%H%x00%aI"
+    },
+    {
+      "nome": "mudanca-sem-commit-esquecida",
+      "arquivo": "rodape_de_documento.py",
+      "de": "if versao(HEAD, caminho) != _conteudos(analise):",
+      "para": "if False:"
+    },
+    {
+      "nome": "hoje-sem-fuso",
+      "arquivo": "rodape_de_documento.py",
+      "de": "datetime.datetime.now().astimezone().strftime",
+      "para": "datetime.datetime.now().strftime"
+    },
+    {
+      "nome": "link-a-partir-de-outra-pasta",
+      "arquivo": "rodape_de_documento.py",
+      "de": "os.path.relpath(link.destino, pasta)",
+      "para": "os.path.relpath(link.destino)"
+    },
+    {
+      "nome": "link-refeito-sem-conferencia",
+      "arquivo": "rodape_de_documento.py",
+      "de": "if achado is None or achado.end() != nova(link.fim) or (novo is not None and achado.group(ALVO) != novo):",
+      "para": "if False:"
+    },
+    {
+      "nome": "bloco-sem-marca",
+      "arquivo": "rodape_de_documento.py",
+      "de": "if com_marca and analise.tipo.marca is not None:",
+      "para": "if False:"
+    },
+    {
+      "nome": "quebra-do-rodape-como-esta",
+      "arquivo": "rodape_de_documento.py",
+      "de": "return [(QUEBRA.sub(quebra, texto), eh_hoje) for texto",
+      "para": "return [(texto, eh_hoje) for texto"
+    },
+    {
+      "nome": "caminho-no-lugar-do-nome",
+      "arquivo": "rodape_de_documento.py",
+      "de": "valores[NOME] = analise.caminho.rsplit(BARRA, 1)[-1]",
+      "para": "valores[NOME] = analise.caminho"
+    },
+    {
+      "nome": "sem-separador-antes",
+      "arquivo": "rodape_de_documento.py",
+      "de": "            if feito:\n                feito.append((separador, False))",
+      "para": "            if False:\n                feito.append((separador, False))"
+    },
+    {
+      "nome": "separador-no-fim-do-arquivo",
+      "arquivo": "rodape_de_documento.py",
+      "de": "feito.append((separador if _tem_seguinte(analise, indice) else analise.quebra, False))",
+      "para": "feito.append((separador, False))"
+    },
+    {
+      "nome": "sem-quebra-no-fim",
+      "arquivo": "rodape_de_documento.py",
+      "de": "if mexeu and junto and not QUEBRA.fullmatch(junto[-1]):",
+      "para": "if False:"
+    },
+    {
+      "nome": "conteudo-com-espacos",
+      "arquivo": "rodape_de_documento.py",
+      "de": "if da_parte else parte.fim].rstrip()",
+      "para": "if da_parte else parte.fim]"
+    },
+    {
+      "nome": "hoje-exato",
+      "arquivo": "rodape_de_documento.py",
+      "de": "if not any(eh_hoje for _, eh_hoje in pedacos):",
+      "para": "if True:"
+    },
+    {
+      "nome": "qualquer-texto-e-data",
+      "arquivo": "rodape_de_documento.py",
+      "de": "return datetime.datetime.strptime(texto, formato).strftime(formato) == texto",
+      "para": "return True"
+    },
+    {
+      "nome": "falta-na-primeira-linha",
+      "arquivo": "rodape_de_documento.py",
+      "de": "Problema(lugar, _ultima_linha_com_texto(analise, parte), FALTA)",
+      "para": "Problema(lugar, _numero(analise, parte.inicio), FALTA)"
+    },
+    {
+      "nome": "sobra-calada",
+      "arquivo": "rodape_de_documento.py",
+      "de": "fora_do_dia.append(Problema(lugar, _numero(analise, achado.inicio), SOBRA))",
+      "para": "pass"
+    },
+    {
+      "nome": "diferente-calado",
+      "arquivo": "rodape_de_documento.py",
+      "de": "fora_do_dia.append(Problema(lugar, _numero(analise, achado.inicio), DIFERENTE))",
+      "para": "pass"
+    },
+    {
+      "nome": "separador-antes-sem-conferir",
+      "arquivo": "rodape_de_documento.py",
+      "de": "if texto[antes:achado.inicio] != (separador if antes > parte.inicio else \"\"):",
+      "para": "if False:"
+    },
+    {
+      "nome": "todo-sem-conferir",
+      "arquivo": "rodape_de_documento.py",
+      "de": "if not fora_do_dia and not _bate(",
+      "para": "if False and not _bate("
+    },
+    {
+      "nome": "montado-com-marca",
+      "arquivo": "rodape_de_documento.py",
+      "de": "blocos = _blocos(analise, QUEBRA_DO_MODELO, False)",
+      "para": "blocos = _blocos(analise, QUEBRA_DO_MODELO, True)"
+    },
+    {
+      "nome": "montado-com-a-quebra-do-documento",
+      "arquivo": "rodape_de_documento.py",
+      "de": "blocos = _blocos(analise, QUEBRA_DO_MODELO, False)",
+      "para": "blocos = _blocos(analise, analise.quebra, False)"
+    },
+    {
+      "nome": "separa-ultima-linha",
+      "arquivo": "rodape_de_documento.py",
+      "de": "ultimo = achado.inicio + len(analise.texto[achado.inicio:achado.fim].rstrip()) - 1",
+      "para": "ultimo = achado.fim"
+    },
+    {
+      "nome": "separa-sem-tirar",
+      "arquivo": "rodape_de_documento.py",
+      "de": "return _texto_de(_documento_montado(analise, {})), trechos",
+      "para": "return analise.texto, trechos"
+    },
+    {
+      "nome": "separador-qualquer",
+      "arquivo": "esquemas/rodape-de-documento.schema.json",
+      "de": "\"separador\": { \"type\": \"string\", \"pattern\": \"^\\\\s*[\\\\n\\\\r](?![\\\\s\\\\S])\" }",
+      "para": "\"separador\": { \"type\": \"string\" }"
+    },
+    {
+      "nome": "lugar-qualquer",
+      "arquivo": "esquemas/rodape-de-documento.schema.json",
+      "de": "\"lugar\": { \"enum\": [\"fim\", \"secao\"] }",
+      "para": "\"lugar\": { \"type\": \"string\" }"
+    },
+    {
+      "nome": "chave-a-mais",
+      "arquivo": "esquemas/rodape-de-documento.schema.json",
+      "de": "  \"additionalProperties\": false,\n  \"required\": [\"versao_schema\", \"tipos\", \"rodapes\"],",
+      "para": "  \"required\": [\"versao_schema\", \"tipos\", \"rodapes\"],"
+    }
+  ]
+}

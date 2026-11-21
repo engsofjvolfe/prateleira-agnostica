@@ -1,0 +1,35 @@
+{
+  "versao_schema": 1,
+  "estragos": [
+    {
+      "nome": "so-a-propria-pasta",
+      "arquivo": "repositorio_git.py",
+      "de": "for acima in (real, *real.parents))",
+      "para": "for acima in (real,))"
+    },
+    {
+      "nome": "git-so-como-pasta",
+      "arquivo": "repositorio_git.py",
+      "de": "(acima / PASTA_DO_GIT).exists()",
+      "para": "(acima / PASTA_DO_GIT).is_dir()"
+    },
+    {
+      "nome": "sem-seguir-atalhos",
+      "arquivo": "repositorio_git.py",
+      "de": "real = Path(os.path.realpath(pasta))",
+      "para": "real = Path(os.path.abspath(pasta))"
+    },
+    {
+      "nome": "sem-o-lugar-inteiro",
+      "arquivo": "repositorio_git.py",
+      "de": "real = Path(os.path.realpath(pasta))",
+      "para": "real = Path(pasta)"
+    },
+    {
+      "nome": "caminho-sem-normalizar",
+      "arquivo": "repositorio_git.py",
+      "de": "real = Path(os.path.realpath(pasta))",
+      "para": "real = Path(pasta).absolute()"
+    }
+  ]
+}

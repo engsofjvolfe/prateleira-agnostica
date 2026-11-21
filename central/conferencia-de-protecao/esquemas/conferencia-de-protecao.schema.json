@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "conferencia-de-protecao.schema.json",
+  "type": "object",
+  "required": [
+    "versao_schema",
+    "fechados",
+    "pedido_de_administrador",
+    "usuario_da_ia",
+    "usuario_do_programa",
+    "pedido_de_outro_usuario"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "versao_schema": { "const": 2 },
+    "fechados": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "comum.schema.json#/$defs/linha" }
+    },
+    "pedido_de_administrador": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "comum.schema.json#/$defs/linha" }
+    },
+    "usuario_da_ia": { "$ref": "comum.schema.json#/$defs/linha" },
+    "usuario_do_programa": { "$ref": "comum.schema.json#/$defs/linha" },
+    "pedido_de_outro_usuario": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "comum.schema.json#/$defs/linha" }
+    }
+  }
+}

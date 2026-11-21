@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "leitura-do-terminal.schema.json",
+  "type": "object",
+  "required": ["versao_schema", "prefixos", "rodam_texto"],
+  "additionalProperties": false,
+  "properties": {
+    "versao_schema": { "const": 1 },
+    "prefixos": { "$ref": "#/$defs/palavras" },
+    "rodam_texto": { "$ref": "#/$defs/palavras" }
+  },
+  "$defs": {
+    "palavras": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+  }
+}

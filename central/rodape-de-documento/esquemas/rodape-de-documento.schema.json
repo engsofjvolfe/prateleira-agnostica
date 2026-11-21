@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rodape-de-documento.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["versao_schema", "tipos", "rodapes"],
+  "properties": {
+    "versao_schema": { "const": 1 },
+    "tipos": {
+      "type": "object",
+      "propertyNames": { "$ref": "comum.schema.json#/$defs/linha" },
+      "additionalProperties": { "$ref": "#/$defs/tipo" }
+    },
+    "rodapes": {
+      "type": "object",
+      "propertyNames": { "$ref": "comum.schema.json#/$defs/linha" },
+      "additionalProperties": { "$ref": "#/$defs/rodape" }
+    },
+    "campos": { "$ref": "#/$defs/campos" },
+    "formato_da_data": { "$ref": "comum.schema.json#/$defs/linha" },
+    "sem_rodape": { "$ref": "comum.schema.json#/$defs/linha" }
+  },
+  "$defs": {
+    "padroes": { "type": "array", "minItems": 1, "items": { "$ref": "comum.schema.json#/$defs/linha" } },
+    "expressao": { "type": "string", "minLength": 1 },
+    "expressoes": { "type": "array", "items": { "$ref": "#/$defs/expressao" } },
+    "tipo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["arquivos", "separador"],
+      "properties": {
+        "arquivos": { "$ref": "#/$defs/padroes" },
+        "separador": { "type": "string", "pattern": "^\\s*[\\n\\r](?![\\s\\S])" },
+        "links": { "$ref": "#/$defs/expressoes" },
+        "partes_sem_link": { "$ref": "#/$defs/expressoes" },
+        "marca": { "$ref": "comum.schema.json#/$defs/linha" },
+        "linha_de_escolha": { "$ref": "#/$defs/expressao" },
+        "linha_de_secao": { "$ref": "#/$defs/expressao" },
+        "linha_de_fim": { "$ref": "#/$defs/expressao" }
+      }
+    },
+    "rodape": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["modelos", "documentos", "lugar"],
+      "properties": {
+        "modelos": {
+          "type": "object",
+          "propertyNames": { "$ref": "comum.schema.json#/$defs/linha" },
+          "additionalProperties": { "$ref": "comum.schema.json#/$defs/linha" }
+        },
+        "documentos": { "$ref": "#/$defs/padroes" },
+        "fora": { "type": "array", "items": { "$ref": "comum.schema.json#/$defs/linha" } },
+        "lugar": { "enum": ["fim", "secao"] }
+      }
+    },
+    "campos": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["abre", "fecha"],
+      "properties": {
+        "abre": { "$ref": "comum.schema.json#/$defs/linha" },
+        "fecha": { "$ref": "comum.schema.json#/$defs/linha" },
+        "valores": { "type": "object", "additionalProperties": { "type": "string" } }
+      }
+    }
+  }
+}

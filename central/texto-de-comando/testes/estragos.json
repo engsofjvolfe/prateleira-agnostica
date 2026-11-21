@@ -1,0 +1,53 @@
+{
+  "versao_schema": 1,
+  "estragos": [
+    {
+      "nome": "quebras-como-estao",
+      "arquivo": "texto_de_comando.py",
+      "de": "encoding=CODIFICACAO).read()",
+      "para": "encoding=CODIFICACAO, newline=\"\").read()"
+    },
+    {
+      "nome": "codigo-de-saida-nao-conta",
+      "arquivo": "texto_de_comando.py",
+      "de": "if rodado.returncode != PASSOU:\n        return None",
+      "para": "if False:\n        return None"
+    },
+    {
+      "nome": "le-a-entrada-do-teste",
+      "arquivo": "texto_de_comando.py",
+      "de": "stdin=subprocess.DEVNULL, ",
+      "para": ""
+    },
+    {
+      "nome": "preso-ao-terminal",
+      "arquivo": "texto_de_comando.py",
+      "de": "SOLTO = True",
+      "para": "SOLTO = False"
+    },
+    {
+      "nome": "ilegivel-sem-erro",
+      "arquivo": "texto_de_comando.py",
+      "de": "raise ErroDeDados(f\"{list(comando)}: o que escreveu não se lê como texto em UTF-8 ({erro})\") from None",
+      "para": "return None"
+    },
+    {
+      "nome": "comando-vazio-sem-erro",
+      "arquivo": "texto_de_comando.py",
+      "de": "if not comando:\n        raise ErroDeDados(\"comando sem nenhuma palavra\")",
+      "para": "if False:\n        raise ErroDeDados(\"comando sem nenhuma palavra\")"
+    },
+    {
+      "nome": "roda-de-outra-pasta",
+      "arquivo": "texto_de_comando.py",
+      "de": "cwd=pasta, ",
+      "para": ""
+    },
+    {
+      "nome": "programa-que-nao-existe-quebra",
+      "arquivo": "texto_de_comando.py",
+      "de": "except OSError as erro:",
+      "para": "except ValueError as erro:"
+    }
+  ]
+}

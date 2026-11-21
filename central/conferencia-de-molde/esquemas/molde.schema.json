@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "molde.schema.json",
+  "type": ["object", "boolean"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "const": "https://json-schema.org/draft/2020-12/schema" },
+    "$id": { "type": "string", "pattern": "^[a-z0-9-]+\\.schema\\.json(?![\\s\\S])" },
+    "$defs": { "type": "object", "additionalProperties": { "$ref": "#" } },
+    "$ref": { "type": "string", "pattern": "^([a-z0-9-]+\\.schema\\.json)?#(/\\$defs/[^/\\n\\r]+)?(?![\\s\\S])" },
+    "default": true,
+    "examples": { "type": "array" },
+    "type": {
+      "type": ["string", "array"],
+      "$ref": "#/$defs/nome_de_tipo",
+      "items": { "type": "string", "$ref": "#/$defs/nome_de_tipo" },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "const": true,
+    "enum": { "type": "array", "minItems": 1 },
+    "minLength": { "$ref": "#/$defs/contagem" },
+    "maxLength": { "$ref": "#/$defs/contagem" },
+    "pattern": { "$ref": "#/$defs/linha" },
+    "minimum": { "type": "number" },
+    "maximum": { "type": "number" },
+    "minItems": { "$ref": "#/$defs/contagem" },
+    "maxItems": { "$ref": "#/$defs/contagem" },
+    "uniqueItems": { "type": "boolean" },
+    "items": { "$ref": "#" },
+    "required": { "type": "array", "items": { "$ref": "#/$defs/linha" }, "uniqueItems": true },
+    "properties": { "type": "object", "additionalProperties": { "$ref": "#" } },
+    "additionalProperties": { "$ref": "#" },
+    "propertyNames": { "$ref": "#" },
+    "minProperties": { "$ref": "#/$defs/contagem" },
+    "maxProperties": { "$ref": "#/$defs/contagem" },
+    "allOf": { "type": "array", "minItems": 1, "items": { "$ref": "#" } },
+    "if": { "$ref": "#" },
+    "then": { "$ref": "#" },
+    "else": { "$ref": "#" }
+  },
+  "$defs": {
+    "contagem": { "type": "integer", "minimum": 0 },
+    "linha": { "type": "string", "pattern": "^[^\\n\\r]*\\S[^\\n\\r]*(?![\\s\\S])" },
+    "nome_de_tipo": { "pattern": "^[a-z]+(?![\\s\\S])" }
+  }
+}
